@@ -1,0 +1,93 @@
+// room 정보
+const rooms = {
+    "2": ["201", "202", "203", "204", "205", "206"],
+    "3": ["301", "302", "303", "304", "305", "306", "307", "308", "309", 
+"310"],
+    "4": ["401", "402", "403", "404", "405", "406", "407", "408", "409", 
+"410"],
+    "5": ["501", "502", "503", "504", "505", "506", "507", "508", "509", 
+"510", "511", "512"],
+    "6": ["601", "602", "603", "604", "605", "606", "607", "608", "609", 
+"610", "611", "612"],
+    "7": ["701", "702", "703", "704", "705"]
+};
+
+// room 타입 정보
+const roomTypes = {
+    // 기존 코드 생략...
+};
+
+// room 가격 정보
+const roomPrices = {
+    "Standard Room": 55000,
+    "Premium Double": 65000,
+    "Executive Double": 75000,
+    "Deluxe Twin": 80000,
+    "Penthouse": 130000,
+    "703": 120000
+};
+
+// 각 층마다의 객실에 대해 반복
+for(let floor in rooms) {
+    rooms[floor].forEach(room => {
+        // 모달 생성
+        let modal = `
+        <div class="modal fade" id="modal${room}" tabindex="-1" 
+role="dialog" aria-labelledby="exampleModalCenterTitle" 
+aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" 
+role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" 
+id="exampleModalLongTitle">Room ${room}</h5>
+                        <button type="button" class="close" 
+data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 예약 폼 -->
+                        <form id="bookingForm${room}">
+                            <div class="form-group">
+                                <label for="guestName${room}">Guest 
+Name</label>
+                                <input type="text" id="guestName${room}" 
+class="form-control">
+                            </div>
+                            <!-- 기존 코드 생략... -->
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" 
+data-dismiss="modal">Close</button>
+                        <button id="cancelBtn${room}" type="button" 
+class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        // 생성된 모달을 body에 추가
+        document.body.innerHTML += modal;
+
+        // 모달 열기 이벤트 리스너
+        $(`#room${room}`).click(function() {
+            $(`#modal${room}`).modal('show');
+            $(`#roomType${room}`).val(roomTypes[room]);
+            $(`#roomPrice${room}`).val(roomPrices[roomTypes[room]] || 
+roomPrices[room]);
+        });
+
+        // 모달에서의 예약 버튼 이벤트 리스너
+        $(`#bookingForm${room}`).submit(function(e) {
+            e.preventDefault();
+            // 기존 코드 생략...
+        });
+
+        // 모달에서의 예약 취소 버튼 이벤트 리스너
+        $(`#cancelBtn${room}`).click(function() {
+            // 기존 코드 생략...
+        });
+    });
+}
